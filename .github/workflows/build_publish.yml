@@ -38,9 +38,13 @@ jobs:
     steps:
     - name: build output
       run: |
-        echo build output ${{ needs.build.outputs.output == 'true' }}
+        echo build output ${{ needs.build.outputs.output }}
+    - name: check if
+      if: needs.build.outputs.output
+      run: |
+        echo build output '${{ needs.build.outputs.output }}'
     - uses: actions/checkout@v1
-    - uses: atactions/publish-github-action@v1
+    - uses: atactions/publish-github-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         check_tag: true
