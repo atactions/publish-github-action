@@ -1,0 +1,42 @@
+name: "Build and publish result"
+on:  
+  push:
+    branches:    
+      - master
+    paths-ignore:
+      - '.github/workflows/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      output: ${{ steps.build_state.state }} 
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: "npm ci"
+      run: npm ci
+
+    - name: "npm run build"
+      run: npm run build
+
+    - name: "npm run test"
+      run: npm run test
+
+    - name: "check for uncommitted changes"
+      id: build_state
+      env:
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Ensure no changes, but ignore node_modules dir since dev/fresh ci deps installed.
+      run: |
+        git diff --exit-code --stat -- . ':!node_modules' \
+        || (git config --global user.email "github-actions[bot]@users.noreply.github.com" && git config --global user.name "github-actions[bot]" && git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/atactions/fork-sync.git" && git add -u && git commit -m "Build" && git push origin 'HEAD:master' && echo "::set-output name=state::true")
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    if: needs.build.outputs.output == 'true'
+    steps:
+    - uses: actions/checkout@v1
+    - uses: atactions/publish-github-action@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
