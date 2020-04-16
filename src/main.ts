@@ -18,7 +18,10 @@ async function run() {
     let branchName: string = 'releases/'+version;
 
     let tags = await octokit.repos.listTags({owner: context.repo.owner, repo: context.repo.repo});
-
+    if (context.repo.owner=='atactions' && context.repo.repo=='publish-github-action'){
+      check_tag=false;
+      console.log('self call,check_tag is always false.');
+    }
     if (check_tag && tags.data.some(tag => tag.name === version)) {
       console.log('Tag', version, 'already exists,return.');
       return
