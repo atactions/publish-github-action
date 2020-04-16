@@ -7,7 +7,7 @@ const semver = require('semver');
 const githubToken = core.getInput('github_token', { required: true });
 const context = Github.context;
 const octokit = new Octokit({auth: githubToken});
-var check_tag = Boolean(core.getInput('check_tag', { required: false }));
+var check_tag = core.getInput('check_tag', { required: false })==='true';
 
 async function run() {
   try {
