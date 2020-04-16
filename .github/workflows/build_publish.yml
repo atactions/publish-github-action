@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      output: ${{ steps.build_state.state }} 
+      output: ${{ steps.build_state.outputs.state }} 
     steps:
     - uses: actions/checkout@v1
 
@@ -34,7 +34,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: build
-    if: needs.build.outputs.output == true
+    if: needs.build.outputs.output == 'true'
     steps:
     - uses: actions/checkout@v1
     - uses: atactions/publish-github-action@v1
