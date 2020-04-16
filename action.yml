@@ -8,6 +8,10 @@ inputs:
   github_token:
     description: 'Token for the github API'
     required: true
+  check_tag:
+    description: 'when version tag exists then do nothing'
+    required: false
+    default: false
 runs:
   using: 'node12'
   main: 'lib/main.js'
