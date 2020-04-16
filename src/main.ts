@@ -1,12 +1,13 @@
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
-const Github = require('@actions/github');
-const Octokit = require('@octokit/rest').plugin(require('@octokit/plugin-retry'));
+const { Github } = require('@actions/github');
+const { Octokit } = require('@octokit/rest').plugin(require('@octokit/plugin-retry'));
 const fs = require('fs');
 const semver = require('semver');
 const githubToken = core.getInput('github_token', { required: true });
 const context = Github.context;
 const octokit = new Octokit({auth: githubToken});
+const check_tag = core.getInput('check_tag', { required: false });
 
 async function run() {
   try {
@@ -18,9 +19,11 @@ async function run() {
 
     let tags = await octokit.repos.listTags({owner: context.repo.owner, repo: context.repo.repo});
 
-    if (tags.data.some(tag => tag.name === version)) {
-      console.log('Tag', version, 'already exists');
-      return;
+    if (check_tag && tags.data.some(tag => tag.name === version)) {
+      console.log('Tag', version, 'already exists,return.');
+      return
+    } else {
+      console.log('Tag', version, 'already exists, will be deleted first.');     
     }
 
     await exec.exec('git', ['checkout', '-b', branchName]);
