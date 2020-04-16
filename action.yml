@@ -12,6 +12,7 @@ inputs:
     description: 'when version tag exists then do nothing'
     required: false
     default: false
+    
 runs:
   using: 'node12'
   main: 'lib/main.js'
