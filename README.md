@@ -1,5 +1,5 @@
 # Publish GitHub Action
-![](https://img.shields.io/github/v/release/tg908/publish-github-action?style=flat-square)
+![](https://img.shields.io/github/v/release/atactions/publish-github-action?style=flat-square)
 
 Forked from [TG908/publish-github-action](https://github.com/TG908/publish-github-action).Add `check_tag` parameter to do nothing when setted to `true` and the `version tag` exists-This is the way of TG908/publish-github-action work.
 
