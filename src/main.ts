@@ -36,6 +36,7 @@ async function run() {
     await exec.exec('git remote set-url origin https://x-access-token:'+githubToken+'@github.com/'+context.repo.owner+'/'+context.repo.repo+'.git');
     await exec.exec('git add -f node_modules');
     await exec.exec('git commit -a -m "prod dependencies"');
+    await exec.exec('git', ['push', 'origin', ':'+branchName]);
     await exec.exec('git', ['push', 'origin', branchName]);
 
     await exec.exec('git', ['push', 'origin', ':refs/tags/'+version]);
