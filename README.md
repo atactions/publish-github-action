@@ -1,7 +1,7 @@
 # Publish GitHub Action
 ![](https://img.shields.io/github/v/release/atactions/publish-github-action?style=flat-square)
 
-Forked from [TG908/publish-github-action](https://github.com/TG908/publish-github-action) ![](https://img.shields.io/github/v/release/tg908/publish-github-action?style=flat-square).Add `check_tag` parameter to do nothing when setted to `true` and the `version tag` exists-This is the way of TG908/publish-github-action work.
+Forked from [TG908/publish-github-action](https://github.com/TG908/publish-github-action) ![](https://img.shields.io/github/v/release/tg908/publish-github-action?style=flat-square).Add `check_tag` parameter to do nothing when setted to `true` and the tag `version` exists-This is the way of TG908/publish-github-action work.
 
 This action creates a release branch for your GitHub Actions which will be automatically tagged and released. The release version can be  defined in `package.json`.
 
