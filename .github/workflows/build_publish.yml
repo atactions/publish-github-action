@@ -41,7 +41,7 @@ jobs:
       run: |
         echo build output '${{ needs.build.outputs.output }}'
     - uses: actions/checkout@v1
-    - uses: atactions/publish-github-action@v1
+    - uses: atactions/publish-github-action@v1.1.8
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         check_tag: false
