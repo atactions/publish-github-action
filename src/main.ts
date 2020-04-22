@@ -41,6 +41,7 @@ async function run() {
       exec.exec('git', ['tag', '-d', minorVersion]).catch(f);
       console.log('delete tag ',minorVersion);
     }
+    await exec.exec('git', ['checkout', 'master']);
     await exec.exec('git', ['checkout', '-b', branchName]);
     await exec.exec('npm install --production');
     await exec.exec('git config --global user.email "github-actions[bot]@users.noreply.github.com"');
