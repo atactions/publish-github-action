@@ -31,13 +31,13 @@ async function run() {
       console.log('Tag already exists, will be deleted first.');     
     }
     if(!check_tag){     
-      await exec.exec('git', ['branch', '-d', branchName]);
+      exec.exec('git', ['branch', '-d', branchName]);
       console.log('delete branch ',branchName);
-      await exec.exec('git', ['tag', '-d', version]);
+      exec.exec('git', ['tag', '-d', version]);
       console.log('delete tag ',version);
-      await exec.exec('git', ['tag', '-d', majorVersion]);
+      exec.exec('git', ['tag', '-d', majorVersion]);
       console.log('delete tag ',majorVersion);
-      await exec.exec('git', ['tag', '-d', minorVersion]);
+      exec.exec('git', ['tag', '-d', minorVersion]);
       console.log('delete tag ',minorVersion);
     }
     await exec.exec('git', ['checkout', '-b', branchName]);
