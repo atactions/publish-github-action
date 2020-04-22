@@ -26,9 +26,18 @@ async function run() {
       console.log('Tag', version, 'already exists,return.');
       return
     } else {
-      console.log('Tag', version, 'already exists, will be deleted first.');     
+      console.log('Tag already exists, will be deleted first.');     
     }
-
+    if(!check_tag){     
+      await exec.exec('git', ['branch', '-d', branchName]);
+      console.log('delete branch ',branchName);
+      await exec.exec('git', ['tag', '-d', version]);
+      console.log('delete tag ',version);
+      await exec.exec('git', ['tag', '-d', majorVersion]);
+      console.log('delete tag ',majorVersion);
+      await exec.exec('git', ['tag', '-d', minorVersion]);
+      console.log('delete tag ',minorVersion);
+    }
     await exec.exec('git', ['checkout', '-b', branchName]);
     await exec.exec('npm install --production');
     await exec.exec('git config --global user.email "github-actions[bot]@users.noreply.github.com"');
