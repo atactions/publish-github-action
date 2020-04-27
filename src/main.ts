@@ -32,17 +32,17 @@ async function run() {
     }
     var f=(value)=>{console.log('check_tag:',value);}
     if(!check_tag){     
-      exec.exec('git', ['branch', '-d', branchName]).catch(f);
+      await exec.exec('git', ['branch', '-d', branchName],{ignoreReturnCode:true}).catch(f);
       console.log('delete branch ',branchName);
-      exec.exec('git', ['tag', '-d', version]).catch(f);
+      await exec.exec('git', ['tag', '-d', version],{ignoreReturnCode:true}).catch(f);
       console.log('delete tag ',version);
-      exec.exec('git', ['tag', '-d', majorVersion]).catch(f);
+      await exec.exec('git', ['tag', '-d', majorVersion],{ignoreReturnCode:true}).catch(f);
       console.log('delete tag ',majorVersion);
-      exec.exec('git', ['tag', '-d', minorVersion]).catch(f);
+      await exec.exec('git', ['tag', '-d', minorVersion],{ignoreReturnCode:true}).catch(f);
       console.log('delete tag ',minorVersion);
     }
     await exec.exec('git', ['checkout', 'master']);
-    await exec.exec('git', ['checkout', '-b', branchName]);
+    await exec.exec('git', ['checkout', '-b', branchName],{ignoreReturnCode:true});
     await exec.exec('npm install --production');
     await exec.exec('git config --global user.email "github-actions[bot]@users.noreply.github.com"');
     await exec.exec('git config --global user.name "github-actions[bot]"');
@@ -52,11 +52,11 @@ async function run() {
     await exec.exec('git', ['push', 'origin', ':'+branchName]);
     await exec.exec('git', ['push', 'origin', branchName]);
 
-    await exec.exec('git', ['push', 'origin', ':refs/tags/'+version]);
+    await exec.exec('git', ['push', 'origin', ':refs/tags/'+version],{ignoreReturnCode:true});
     await exec.exec('git', ['tag', '-fa', version, '-m', version]);
-    await exec.exec('git', ['push', 'origin', ':refs/tags/'+minorVersion]);
+    await exec.exec('git', ['push', 'origin', ':refs/tags/'+minorVersion],{ignoreReturnCode:true});
     await exec.exec('git', ['tag', '-f', minorVersion]);
-    await exec.exec('git', ['push', 'origin', ':refs/tags/'+majorVersion]);
+    await exec.exec('git', ['push', 'origin', ':refs/tags/'+majorVersion],{ignoreReturnCode:true});
     await exec.exec('git', ['tag', '-f', majorVersion]);
     await exec.exec('git push --tags origin')
 
