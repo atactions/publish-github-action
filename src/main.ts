@@ -30,7 +30,7 @@ async function run() {
     } else {
       console.log('Tag already exists, will be deleted first.');     
     }
-    var f=(value)=>{console.log('check_tag:',value);}
+    var f=(value)=>{console.log('check_tag:',value);return value;}
     if(!check_tag){     
       await exec.exec('git', ['branch', '-d', branchName],{ignoreReturnCode:true}).catch(f);
       console.log('delete branch ',branchName);
@@ -41,7 +41,7 @@ async function run() {
       await exec.exec('git', ['tag', '-d', minorVersion],{ignoreReturnCode:true}).catch(f);
       console.log('delete tag ',minorVersion);
     }
-    var f=(value)=>{console.log('delete refs:',value);}
+    var f=(value)=>{console.log('delete refs:',value);return value;}
     await exec.exec('git', ['checkout', 'master']);
     await exec.exec('git', ['checkout', '-b', branchName],{ignoreReturnCode:true}).catch(f);
     await exec.exec('npm install --production');
