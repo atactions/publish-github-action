@@ -30,7 +30,7 @@ async function run() {
     } else {
       console.log('Tag already exists, will be deleted first.');     
     }
-    var f=(value)=>{console.log('check_tag:',value);return value;}
+    var f=(value)=>{console.log('check_tag:',value);}
     if(!check_tag){     
       await exec.exec('git', ['branch', '-d', branchName],{ignoreReturnCode:true}).catch(f);
       console.log('delete branch ',branchName);
@@ -41,7 +41,7 @@ async function run() {
       await exec.exec('git', ['tag', '-d', minorVersion],{ignoreReturnCode:true}).catch(f);
       console.log('delete tag ',minorVersion);
     }
-    var f=(value)=>{console.log('delete refs:',value);return value;}
+    var f=(value)=>{console.log('delete refs:',value);}
     await exec.exec('git', ['checkout', 'master']);
     await exec.exec('git', ['checkout', '-b', branchName],{ignoreReturnCode:true}).catch(f);
     await exec.exec('npm install --production');
@@ -50,7 +50,7 @@ async function run() {
     await exec.exec('git remote set-url origin https://x-access-token:'+githubToken+'@github.com/'+context.repo.owner+'/'+context.repo.repo+'.git');
     await exec.exec('git add -f node_modules');
     await exec.exec('git commit -a -m "prod dependencies"');
-    await exec.exec('git', ['push', 'origin', ':'+branchName]);
+    await exec.exec('git', ['push', 'origin', ':'+branchName],{ignoreReturnCode:true}).catch(f);
     await exec.exec('git', ['push', 'origin', branchName]);
 
     await exec.exec('git', ['push', 'origin', ':refs/tags/'+version],{ignoreReturnCode:true}).catch(f);
